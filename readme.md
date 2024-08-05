@@ -34,7 +34,3 @@ If you don't want to select any, you can press the key combination again or just
 
 In order to delete a buffer, you can press `x` on the line of the buffer you want to delete, and that's it, the buffer will be removed if there is no changes pending
 
-## Future features (maybe)
-
-- [ ] Remove buffers (delete from nvim session)
-
