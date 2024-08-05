@@ -14,7 +14,7 @@ function Buff.toggle_buffer_list()
     local current_buffer = vim.api.nvim_get_current_buf()
 
     if Rt.buf == current_buffer then
-        vim.api.nvim_win_close(Rt.win, true)
+        pcall(vim.api.nvim_win_close, Rt.win, true)
         return
     end
 
