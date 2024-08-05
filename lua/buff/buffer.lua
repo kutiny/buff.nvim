@@ -10,7 +10,7 @@ function Buffer.open_buffer(rt)
     end
 
     if not buf_id then
-        print("There was an error trying to match selection with buffer names.")
+        vim.api.nvim_err_writeln("There was an error trying to match selection with buffer names.")
         return
     end
 
@@ -32,8 +32,14 @@ function Buffer.close_buffer(rt)
         end
     end
 
+    local has_changes = vim.api.nvim_get_option_value('modified', { buf = buf_id })
+    if has_changes then
+        vim.api.nvim_err_writeln("Buffer has pending changes, please save before closing.")
+        return
+    end
+
     if not buf_id then
-        print("There was an error trying to close buffer.")
+        vim.api.nvim_err_writeln("There was an error trying to close buffer.")
         return
     end
 

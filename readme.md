@@ -30,6 +30,10 @@ return {
 If you copied the configuration from before, you can type <leader>c to toggle the buffer list, move with vimotions and press enter to select one buffer.
 If you don't want to select any, you can press the key combination again or just leave that window (it will close automatically.
 
+# Deleting buffers
+
+In order to delete a buffer, you can press `x` on the line of the buffer you want to delete, and that's it, the buffer will be removed if there is no changes pending
+
 ## Future features (maybe)
 
 - [ ] Remove buffers (delete from nvim session)
