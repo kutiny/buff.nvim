@@ -72,6 +72,27 @@ function Buffer.initialize(rt)
     end
 
     vim.api.nvim_buf_set_lines(rt.buf, 0, -1, false, text)
+
+    local configs = {
+        rnu = false,
+        nu =  false,
+        signcolumn =  'no',
+        list =  false,
+        foldcolumn =  '0',
+        wrap =  false,
+        spell =  false,
+    }
+
+    local opts = {
+        win = rt.win,
+        scope = 'local'
+    }
+
+    for k, v in pairs(configs) do
+        vim.api.nvim_set_option_value(k, v, opts)
+    end
+
+
 end
 
 return Buffer
