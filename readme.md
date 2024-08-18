@@ -14,6 +14,7 @@ return {
     lazy = true,
     cmd = { 'BuffListToggle' },
     opts = {
+        slim_path = true,
         ignore_patterns = {
             "oil:.*", -- useful if you want to hide custom buffers like oil.nvim
         }
@@ -24,6 +25,11 @@ return {
 }
 ```
 </details>
+
+|Config|Description|Default|
+|:-|:-|:-|
+|ignore_patterns|Ignore patterns (do not show them in the list)|{}|
+|slim_path|Shorten path by stripping folder names to three characters|true|
 
 # How to use
 

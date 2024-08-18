@@ -40,9 +40,27 @@ function Buff.toggle_buffer_list()
                 end
             end
 
+            local show_name = string.gsub(buf_name, tostring(Helpers.get_home_dir()), '~')
+
+            if Rt.config.slim_path then
+                local is_windows = package.config:sub(1, 1) == '\\'
+                local path_separator = is_windows and '\\' or '/'
+
+                local short_name = ''
+                for token in string.gmatch(show_name, "%w+" .. path_separator) do
+                    short_name = short_name .. string.sub(token, 1, 3) .. '/'
+                end
+
+                if show_name:sub(1,1) == '~' then
+                    short_name = '~' .. path_separator .. short_name
+                end
+
+                show_name = short_name .. buf_name:match(".*" .. path_separator .. "(.*)");
+            end
+
             table.insert(Rt.buffer_list, {
                 buffers[i],
-                string.gsub(buf_name, tostring(Helpers.get_home_dir()), '~'),
+                show_name,
             })
         end
         ::continue::
