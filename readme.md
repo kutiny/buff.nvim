@@ -17,6 +17,11 @@ return {
         slim_path = true,
         ignore_patterns = {
             "oil:.*", -- useful if you want to hide custom buffers like oil.nvim
+        },
+        window = {
+            auto_width = true,
+            -- fixed_width = 30,
+            -- percentage_width = 30, -- or 0.3
         }
     },
     keys = {
@@ -30,6 +35,12 @@ return {
 |:-|:-|:-|
 |ignore_patterns|Ignore patterns (do not show them in the list)|{}|
 |slim_path|Shorten path by stripping folder names to three characters|true|
+|window|Window configuration|{ auto_width = true }|
+
+If you configure more than one option for window you may want to know its precedence:
+1. auto_width
+2. percentage_width
+3. fixed_width
 
 # How to use
 

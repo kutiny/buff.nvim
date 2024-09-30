@@ -92,7 +92,6 @@ function Buffer.initialize(rt)
         vim.api.nvim_set_option_value(k, v, opts)
     end
 
-
 end
 
 return Buffer
