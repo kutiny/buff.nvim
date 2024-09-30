@@ -48,15 +48,27 @@ function Buff.toggle_buffer_list()
                 local path_separator = is_windows and '\\' or '/'
 
                 local short_name = ''
-                for token in string.gmatch(show_name, "%w+" .. path_separator) do
-                    short_name = short_name .. string.sub(token, 1, 3) .. '/'
+                local parts = {}
+                for token in string.gmatch(show_name, "([^" .. path_separator .. "]+)") do
+                    if token ~= '~' then
+                        -- short_name = short_name .. token:sub(1, 3) .. path_separator
+                        table.insert(parts, token:sub(1, 3) .. path_separator)
+                    end
+                end
+
+                table.remove(parts)
+
+                for _, part in ipairs(parts) do
+                    short_name = short_name .. part
                 end
 
                 if show_name:sub(1, 1) == '~' then
                     short_name = '~' .. path_separator .. short_name
                 end
 
-                show_name = short_name .. buf_name:match(".*" .. path_separator .. "(.*)");
+                -- show_name = short_name .. buf_name:match(".*" .. path_separator .. "(.*)");
+                local file_name = buf_name:match("([^/\\]+)$")
+                show_name = short_name .. file_name
             end
 
             if show_name:len() > max_len then
