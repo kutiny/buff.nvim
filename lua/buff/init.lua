@@ -21,6 +21,9 @@ function Buff.toggle_buffer_list()
     Rt.buffer_list = {}
     local buffers = vim.api.nvim_list_bufs()
     local max_len = 10
+    local cwd = vim.fn.getcwd()
+    local is_windows = package.config:sub(1, 1) == '\\'
+    local path_separator = is_windows and '\\' or '/'
 
     for i = 1, #buffers do
         local is_active = vim.api.nvim_buf_is_loaded(buffers[i])
@@ -41,17 +44,14 @@ function Buff.toggle_buffer_list()
                 end
             end
 
-            local show_name = string.gsub(buf_name, tostring(Helpers.get_home_dir()), '~')
+            local show_name = buf_name:gsub(string.gsub(cwd .. path_separator, "([%p])", "%%%1"), '')
+            show_name = string.gsub(show_name, tostring(Helpers.get_home_dir()), '~')
 
             if Rt.config.slim_path then
-                local is_windows = package.config:sub(1, 1) == '\\'
-                local path_separator = is_windows and '\\' or '/'
-
                 local short_name = ''
                 local parts = {}
                 for token in string.gmatch(show_name, "([^" .. path_separator .. "]+)") do
                     if token ~= '~' then
-                        -- short_name = short_name .. token:sub(1, 3) .. path_separator
                         table.insert(parts, token:sub(1, 3) .. path_separator)
                     end
                 end
@@ -66,7 +66,6 @@ function Buff.toggle_buffer_list()
                     short_name = '~' .. path_separator .. short_name
                 end
 
-                -- show_name = short_name .. buf_name:match(".*" .. path_separator .. "(.*)");
                 local file_name = buf_name:match("([^/\\]+)$")
                 show_name = short_name .. file_name
             end
