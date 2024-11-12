@@ -14,8 +14,9 @@ function Buffer.open_buffer(rt)
         return
     end
 
-    vim.api.nvim_win_close(rt.win, true)
-    vim.api.nvim_set_current_buf(buf_id)
+    pcall(vim.api.nvim_set_current_win, rt.previous_win)
+    pcall(vim.api.nvim_win_close, rt.win, true)
+    pcall(vim.api.nvim_set_current_buf, buf_id)
 end
 
 function Buffer.close_buffer(rt)
@@ -55,6 +56,7 @@ function Buffer.initialize(rt)
         buffer = rt.buf,
         callback = function()
             pcall(vim.api.nvim_win_close, rt.win, true)
+            pcall(vim.api.nvim_set_current_win, rt.previous_win)
         end,
     })
 
@@ -75,12 +77,12 @@ function Buffer.initialize(rt)
 
     local configs = {
         rnu = false,
-        nu =  false,
-        signcolumn =  'no',
-        list =  false,
-        foldcolumn =  '0',
-        wrap =  false,
-        spell =  false,
+        nu = false,
+        signcolumn = 'no',
+        list = false,
+        foldcolumn = '0',
+        wrap = false,
+        spell = false,
     }
 
     local opts = {
@@ -91,7 +93,6 @@ function Buffer.initialize(rt)
     for k, v in pairs(configs) do
         vim.api.nvim_set_option_value(k, v, opts)
     end
-
 end
 
 return Buffer

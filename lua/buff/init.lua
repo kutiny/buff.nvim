@@ -2,7 +2,7 @@ local Buff = {}
 local Buffer = require('buff.buffer')
 local Helpers = require('buff.helpers')
 local Config = require('buff.config')
----@alias RuntimeGlobals {config: BuffConfig, buf: integer, win: integer, buffer_list: string[][], win_len: number }
+---@alias RuntimeGlobals {config: BuffConfig, buf: integer, win: integer, previous_win: integer, buffer_list: string[][], win_len: number }
 
 ---@type RuntimeGlobals
 local Rt = {
@@ -12,6 +12,7 @@ local Rt = {
 
 function Buff.toggle_buffer_list()
     local current_buffer = vim.api.nvim_get_current_buf()
+    local current_win = vim.api.nvim_get_current_win()
 
     if Rt.buf == current_buffer then
         pcall(vim.api.nvim_win_close, Rt.win, true)
@@ -98,10 +99,11 @@ function Buff.toggle_buffer_list()
     Rt.buf = vim.api.nvim_create_buf(false, true)
     local win_opts = {
         split = 'left',
-        win = -1,
+        win = current_win,
         width = Rt.win_len,
     }
     Rt.win = vim.api.nvim_open_win(Rt.buf, true, win_opts)
+    Rt.previous_win = current_win
 
     Buffer.initialize(Rt)
 end
